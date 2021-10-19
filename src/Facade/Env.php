@@ -16,7 +16,7 @@ use Think\Component\Facade\Facade;
 
 /**
  * @see \Think\Component\Env\Env
- * @package thinkphp\facade
+ * @package Think\Component\Env\Facade
  * @mixin \Think\Component\Env\Env
  * @method static void load(string $file) 读取环境变量定义文件
  * @method static mixed get(string $name = null, mixed $default = null) 获取环境变量值
