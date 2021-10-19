@@ -39,6 +39,6 @@ class Env extends Facade
      */
     protected static function getFacadeClass()
     {
-        return '\Think\Component\Env\Env';
+        return 'Think\Component\Env\Env';
     }
 }
