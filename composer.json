@@ -1,0 +1,26 @@
+{
+  "name": "reaway/think-env",
+  "type": "library",
+  "description": "think env",
+  "keywords": [],
+  "homepage": "https://github.com/reaway/think-env",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "reaway",
+      "email": "reaway@foxmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "reaway/think-facade": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Think\\Component\\Env\\": "src/"
+    },
+    "files": [
+      "src/helper.php"
+    ]
+  }
+}
