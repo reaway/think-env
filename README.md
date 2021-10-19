@@ -7,7 +7,7 @@ composer require reaway/think-env
 
 ## 用法
 ```php
-use Think\Component\Env\Env;
+use Think\Component\Env\Facade\Env;
 
 require __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
