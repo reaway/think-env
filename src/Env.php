@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Think\Component\Env;
 
@@ -16,6 +16,7 @@ use ArrayAccess;
 
 /**
  * Env管理类
+ * @package think
  */
 class Env implements ArrayAccess
 {
@@ -24,6 +25,17 @@ class Env implements ArrayAccess
      * @var array
      */
     protected $data = [];
+
+    /**
+     * 数据转换映射
+     * @var array
+     */
+    protected $convert = [
+        'true'  => true,
+        'false' => false,
+        'off'   => false,
+        'on'    => true,
+    ];
 
     public function __construct()
     {
@@ -38,15 +50,15 @@ class Env implements ArrayAccess
      */
     public function load(string $file): void
     {
-        $env = parse_ini_file($file, true) ?: [];
+        $env = parse_ini_file($file, true, INI_SCANNER_RAW) ?: [];
         $this->set($env);
     }
 
     /**
      * 获取环境变量值
      * @access public
-     * @param string|null $name 环境变量名
-     * @param mixed $default 默认值
+     * @param string $name    环境变量名
+     * @param mixed  $default 默认值
      * @return mixed
      */
     public function get(string $name = null, $default = null)
@@ -56,9 +68,14 @@ class Env implements ArrayAccess
         }
 
         $name = strtoupper(str_replace('.', '_', $name));
-
         if (isset($this->data[$name])) {
-            return $this->data[$name];
+            $result = $this->data[$name];
+
+            if (is_string($result) && isset($this->convert[$result])) {
+                return $this->convert[$result];
+            }
+
+            return $result;
         }
 
         return $this->getEnv($name, $default);
@@ -88,8 +105,8 @@ class Env implements ArrayAccess
     /**
      * 设置环境变量值
      * @access public
-     * @param string|array $env 环境变量
-     * @param mixed $value 值
+     * @param string|array $env   环境变量
+     * @param mixed        $value 值
      * @return void
      */
     public function set($env, $value = null): void
@@ -127,8 +144,8 @@ class Env implements ArrayAccess
     /**
      * 设置环境变量
      * @access public
-     * @param string $name 参数名
-     * @param mixed $value 值
+     * @param string $name  参数名
+     * @param mixed  $value 值
      */
     public function __set(string $name, $value): void
     {
@@ -158,23 +175,27 @@ class Env implements ArrayAccess
     }
 
     // ArrayAccess
-    public function offsetExists($offset): bool
+    #[\ReturnTypeWillChange]
+    public function offsetSet($name, $value): void
     {
-        return $this->__isset($offset);
+        $this->set($name, $value);
     }
 
-    public function offsetGet($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($name): bool
     {
-        return $this->get($offset);
+        return $this->__isset($name);
     }
 
-    public function offsetSet($offset, $value): void
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($name)
     {
-        $this->set($offset, $value);
+        throw new Exception('not support: unset');
     }
 
-    public function offsetUnset($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetGet($name)
     {
-        throw new \Exception('not support: unset');
+        return $this->get($name);
     }
 }
