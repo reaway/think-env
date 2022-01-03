@@ -190,7 +190,7 @@ class Env implements ArrayAccess
     #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
-        throw new Exception('not support: unset');
+        throw new \Exception('not support: unset');
     }
 
     #[\ReturnTypeWillChange]
