@@ -25,10 +25,10 @@ use Think\Component\Facade\Facade;
  * @method static void __set(string $name, mixed $value) 设置环境变量
  * @method static mixed __get(string $name) 获取环境变量
  * @method static bool __isset(string $name) 检测是否存在环境变量
- * @method static bool offsetExists($offset)
- * @method static void offsetSet($offset, $value)
- * @method static mixed offsetGet($offset)
- * @method static mixed offsetUnset($offset)
+ * @method static void offsetSet($name, $value)
+ * @method static bool offsetExists($name)
+ * @method static mixed offsetUnset($name)
+ * @method static mixed offsetGet($name)
  */
 class Env extends Facade
 {
